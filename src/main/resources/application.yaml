@@ -2,7 +2,7 @@ spring:
   application:
     name: infotech
   datasource:
-    url: jdbc:postgresql://localhost:5432/axenovo_db?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://localhost:5433/axenovo_db?createDatabaseIfNotExist=true
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
@@ -14,6 +14,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  thymeleaf:
+    prefix: classpath:/template/
 
 server:
   port: 9095
