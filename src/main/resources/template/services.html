@@ -8,7 +8,7 @@
       content="Explore Axenovo Infotech services including custom software development, web applications, UI/UX design, digital media, and brand strategy."
     />
     <title>Services | Axenovo Infotech</title>
-    <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="assets/brand/axenovo-infotech-logo.svg" />
     <link rel="stylesheet" href="css/main.css" />
    
   </head>
@@ -19,11 +19,13 @@
     <header class="site-header">
       <div class="container header-shell">
         <a class="brand" href="home.html" aria-label="Axenovo Infotech home">
-          <img
-            class="brand-mark"
-            src="assets/brand/axenovo-logo.svg"
-            alt="Axenovo Infotech logo"
-          />
+          <span class="brand-mark-frame" aria-hidden="true">
+            <img
+              class="brand-mark"
+              src="assets/brand/axenovo-infotech-logo.svg"
+              alt=""
+            />
+          </span>
           <span class="brand-copy">
             <span class="brand-name">Axenovo Infotech</span>
             <span class="brand-tag">Pvt. Ltd. | Technology, Design, Growth</span>
@@ -115,86 +117,44 @@
           </div>
 
           <div class="service-grid">
-            <article class="service-card" data-reveal>
+            <article class="service-card" data-reveal th:each="service : ${serviceItems}">
               <div class="icon-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 6.5h14v11H5z"></path>
-                  <path d="M9 10h6"></path>
-                  <path d="M9 14h3"></path>
+                <svg viewBox="0 0 24 24" aria-hidden="true" th:switch="${service.iconName}">
+                  <g th:case="'software'">
+                    <path d="M5 6.5h14v11H5z"></path>
+                    <path d="M9 10h6"></path>
+                    <path d="M9 14h3"></path>
+                  </g>
+                  <g th:case="'web'">
+                    <path d="M4 7h16v10H4z"></path>
+                    <path d="M8 19h8"></path>
+                    <path d="M10 17v2"></path>
+                    <path d="M14 17v2"></path>
+                  </g>
+                  <g th:case="'design'">
+                    <path d="M6 5h12v14H6z"></path>
+                    <path d="M9 9h6"></path>
+                    <path d="M9 13h4"></path>
+                    <path d="M9 17h3"></path>
+                  </g>
+                  <g th:case="'media'">
+                    <path d="M6 7h12v10H6z"></path>
+                    <path d="M10 10l5 2-5 2z"></path>
+                  </g>
+                  <g th:case="*">
+                    <path d="M12 4v16"></path>
+                    <path d="M4 12h16"></path>
+                    <path d="M7 7l10 10"></path>
+                    <path d="M17 7L7 17"></path>
+                  </g>
                 </svg>
               </div>
-              <h3>Custom Software Development</h3>
-              <p>
+              <h3 th:text="${service.title}">Custom Software Development</h3>
+              <p th:text="${service.description}">
                 Tailored enterprise software, SaaS platforms, CRM and ERP systems, backend architecture,
                 API integrations, and secure database management.
               </p>
-              <span class="card-link">Scalable by design</span>
-            </article>
-
-            <article class="service-card" data-reveal>
-              <div class="icon-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4 7h16v10H4z"></path>
-                  <path d="M8 19h8"></path>
-                  <path d="M10 17v2"></path>
-                  <path d="M14 17v2"></path>
-                </svg>
-              </div>
-              <h3>Web Application Development</h3>
-              <p>
-                Responsive company websites, custom web apps, admin dashboards, portals, e-commerce
-                experiences, and progressive web applications.
-              </p>
-              <span class="card-link">Fast, secure, responsive</span>
-            </article>
-
-            <article class="service-card" data-reveal>
-              <div class="icon-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6 5h12v14H6z"></path>
-                  <path d="M9 9h6"></path>
-                  <path d="M9 13h4"></path>
-                  <path d="M9 17h3"></path>
-                </svg>
-              </div>
-              <h3>UI/UX and Graphic Design</h3>
-              <p>
-                Brand identity systems, logo design, brochures, social creatives, website interfaces,
-                and pitch-ready presentation assets.
-              </p>
-              <span class="card-link">Clear and memorable design</span>
-            </article>
-
-            <article class="service-card" data-reveal>
-              <div class="icon-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6 7h12v10H6z"></path>
-                  <path d="M10 10l5 2-5 2z"></path>
-                </svg>
-              </div>
-              <h3>Video Editing and Digital Media</h3>
-              <p>
-                Promotional videos, reels, corporate presentations, ad edits, and brand story content
-                built to increase engagement across platforms.
-              </p>
-              <span class="card-link">Storytelling with strategy</span>
-            </article>
-
-            <article class="service-card" data-reveal>
-              <div class="icon-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 4v16"></path>
-                  <path d="M4 12h16"></path>
-                  <path d="M7 7l10 10"></path>
-                  <path d="M17 7L7 17"></path>
-                </svg>
-              </div>
-              <h3>Branding and Digital Strategy</h3>
-              <p>
-                Brand positioning, market insight, competitor analysis, visual systems, and growth strategy
-                that sharpen your market presence.
-              </p>
-              <span class="card-link">Built for business trust</span>
+              <span class="card-link" th:text="${service.linkLabel}">Scalable by design</span>
             </article>
 
             <article class="service-card featured-card" data-reveal>
@@ -289,23 +249,25 @@
       <div class="container footer-grid">
         <div class="footer-brand">
           <a class="brand footer-brand-link" href="/home" aria-label="Axenovo Infotech home">
-            <img
-              class="brand-mark"
-              src="assets/brand/axenovo-logo.svg"
-              alt="Axenovo Infotech logo"
-            />
+            <span class="brand-mark-frame" aria-hidden="true">
+              <img
+                class="brand-mark"
+                src="assets/brand/axenovo-infotech-logo.svg"
+                alt=""
+              />
+            </span>
             <span class="brand-copy">
               <span class="brand-name">Axenovo Infotech</span>
-              <span class="brand-tag">Scalable technology and digital growth solutions</span>
+              <span class="brand-tag" th:text="${footerContent['footer.tagline']}">Scalable technology and digital growth solutions</span>
             </span>
           </a>
-          <p>
+          <p th:text="${footerContent['footer.description']}">
             We design, build, and launch digital systems that help businesses move with more confidence and speed.
           </p>
         </div>
 
         <div>
-          <h3>Company</h3>
+          <h3 th:text="${footerContent['footer.companyHeading']}">Company</h3>
           <a href="/home">Home</a>
           <a href="/about">About Us</a>
           <a href="/services">Services</a>
@@ -313,16 +275,16 @@
         </div>
 
         <div>
-          <h3>Reach Us</h3>
-          <a href="mailto:axenovoinfotech@gmail.com">axenovoinfotech@gmail.com</a>
-          <a href="tel:+917058792757">+91 70587 92757</a>
-          <a href="tel:+919970248871">+91 99702 48871</a>
-          <p>Nashik, Maharashtra, India</p>
+          <h3 th:text="${footerContent['footer.reachHeading']}">Reach Us</h3>
+          <a th:href="'mailto:' + ${contactContent['contact.email']}" href="mailto:axenovoinfotech@gmail.com" th:text="${contactContent['contact.email']}">axenovoinfotech@gmail.com</a>
+          <a th:href="'tel:' + ${contactContent['contact.phone1']}" href="tel:+917058792757" th:text="${contactContent['contact.phone1']}">+91 70587 92757</a>
+          <a th:href="'tel:' + ${contactContent['contact.phone2']}" href="tel:+919970248871" th:text="${contactContent['contact.phone2']}">+91 99702 48871</a>
+          <p th:text="${contactContent['contact.location']}">Nashik, Maharashtra, India</p>
         </div>
       </div>
 
       <div class="container footer-bottom">
-        <p>&copy; <span data-current-year></span> Axenovo Infotech Pvt. Ltd. All rights reserved.</p>
+        <p>&copy; <span data-current-year></span> <span th:text="${footerContent['footer.bottomText']}">Axenovo Infotech Pvt. Ltd. All rights reserved.</span></p>
       </div>
     </footer>
 

@@ -5,8 +5,7 @@ const navToggle = document.querySelector("[data-nav-toggle]");
 const siteNav = document.querySelector("[data-site-nav]");
 const navLinks = siteNav ? siteNav.querySelectorAll("a") : [];
 const yearNode = document.querySelector("[data-current-year]");
-const contactForm = document.querySelector("[data-contact-form]");
-const formStatus = document.querySelector("[data-form-status]");
+const contactForms = document.querySelectorAll("[data-contact-form]");
 
 if (yearNode) {
   yearNode.textContent = String(new Date().getFullYear());
@@ -30,6 +29,11 @@ navLinks.forEach((link) => {
 
 const revealItems = document.querySelectorAll("[data-reveal]");
 
+revealItems.forEach((item) => {
+  const delay = Number(item.dataset.revealDelay || 0);
+  item.style.setProperty("--reveal-delay", `${delay}ms`);
+});
+
 if ("IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver(
     (entries, observer) => {
@@ -50,36 +54,31 @@ if ("IntersectionObserver" in window) {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
 
-if (contactForm && formStatus) {
-  contactForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+contactForms.forEach((contactForm) => {
+  const formStatus = contactForm.querySelector("[data-form-status]");
+  const submitButton = contactForm.querySelector('button[type="submit"]');
 
+  contactForm.addEventListener("submit", () => {
     if (!contactForm.reportValidity()) {
-      formStatus.textContent = "Please complete the required fields before sending your inquiry.";
+      if (formStatus) {
+        formStatus.textContent = "Please complete all required details before submitting your inquiry.";
+      }
       return;
     }
 
-    const formData = new FormData(contactForm);
-    const name = (formData.get("name") || "").toString().trim();
-    const email = (formData.get("email") || "").toString().trim();
-    const phone = (formData.get("phone") || "").toString().trim();
-    const service = (formData.get("service") || "").toString().trim();
-    const message = (formData.get("message") || "").toString().trim();
+    if (formStatus) {
+      formStatus.textContent = "Sending your inquiry securely...";
+      formStatus.classList.add("is-pending");
+    }
 
-    const subject = encodeURIComponent(`New project inquiry from ${name || "website visitor"}`);
-    const bodyLines = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Phone: ${phone || "Not provided"}`,
-      `Service Needed: ${service}`,
-      "",
-      "Project Brief:",
-      message
-    ];
-
-    const mailto = `mailto:axenovainfotech@gmail.com?subject=${subject}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-
-    formStatus.textContent = "Opening your email app with the project details.";
-    window.location.href = mailto;
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Saving...";
+    }
   });
-}
+});
+const menuBtn = document.querySelector(".nav-toggle");
+
+menuBtn.addEventListener("click", () => {
+  menuBtn.classList.toggle("active");
+});

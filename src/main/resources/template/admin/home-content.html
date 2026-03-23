@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Content | Axenovo Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/css/admin.css" />
+  </head>
+  <body class="admin-page">
+    <div class="admin-dashboard-shell">
+      <div th:replace="~{admin/fragments :: sidebar(${sidebarItems})}"></div>
+
+      <main class="admin-main">
+        <div th:replace="~{admin/fragments :: topbar(${pageTitle}, ${pageBreadcrumb}, ${adminName}, ${adminRole})}"></div>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">Homepage</p>
+              <h2>Update Home Hero</h2>
+              <p class="admin-page-intro">Update the homepage hero content here. Saved changes are reflected on the live website immediately.</p>
+            </div>
+          </div>
+
+          <p class="admin-alert admin-alert-success" th:if="${homeSuccess}" th:text="${homeSuccess}"></p>
+
+          <form class="admin-form admin-two-column-form" th:action="@{/admin/dashboard/home}" method="post">
+            <label>
+              Hero Kicker
+              <input type="text" name="heroKicker" th:value="${homeContent['home.hero.kicker']}" required />
+            </label>
+            <label>
+              Hero Title
+              <input type="text" name="heroTitle" th:value="${homeContent['home.hero.title']}" required />
+            </label>
+            <label class="admin-span-2">
+              Hero Lead
+              <textarea name="heroLead" rows="4" th:text="${homeContent['home.hero.lead']}" required></textarea>
+            </label>
+            <label>
+              Top Card Eyebrow
+              <input type="text" name="heroTopEyebrow" th:value="${homeContent['home.hero.topEyebrow']}" required />
+            </label>
+            <label>
+              Top Card Text
+              <input type="text" name="heroTopText" th:value="${homeContent['home.hero.topText']}" required />
+            </label>
+            <label>
+              Bottom Card Eyebrow
+              <input type="text" name="heroBottomEyebrow" th:value="${homeContent['home.hero.bottomEyebrow']}" required />
+            </label>
+            <label>
+              Bottom Card Text
+              <input type="text" name="heroBottomText" th:value="${homeContent['home.hero.bottomText']}" required />
+            </label>
+            <div class="admin-form-actions admin-span-2">
+              <button class="admin-primary-btn" type="submit">Save Homepage</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

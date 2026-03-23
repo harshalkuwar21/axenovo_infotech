@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Content | Axenovo Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/css/admin.css" />
+  </head>
+  <body class="admin-page">
+    <div class="admin-dashboard-shell">
+      <div th:replace="~{admin/fragments :: sidebar(${sidebarItems})}"></div>
+
+      <main class="admin-main">
+        <div th:replace="~{admin/fragments :: topbar(${pageTitle}, ${pageBreadcrumb}, ${adminName}, ${adminRole})}"></div>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">About Page</p>
+              <h2>Update About Content</h2>
+              <p class="admin-page-intro">Manage the company overview, mission, vision, and supporting About page content from this editor.</p>
+            </div>
+          </div>
+
+          <p class="admin-alert admin-alert-success" th:if="${aboutSuccess}" th:text="${aboutSuccess}"></p>
+
+          <form class="admin-form admin-two-column-form" th:action="@{/admin/dashboard/about}" method="post">
+            <label>
+              Hero Kicker
+              <input type="text" name="aboutHeroKicker" th:value="${aboutContent['about.hero.kicker']}" required />
+            </label>
+            <label>
+              Hero Title
+              <input type="text" name="aboutHeroTitle" th:value="${aboutContent['about.hero.title']}" required />
+            </label>
+            <label class="admin-span-2">
+              Hero Lead
+              <textarea name="aboutHeroLead" rows="3" th:text="${aboutContent['about.hero.lead']}" required></textarea>
+            </label>
+            <label>
+              Section Kicker
+              <input type="text" name="aboutSectionKicker" th:value="${aboutContent['about.section.kicker']}" required />
+            </label>
+            <label>
+              Section Title
+              <input type="text" name="aboutSectionTitle" th:value="${aboutContent['about.section.title']}" required />
+            </label>
+            <label class="admin-span-2">
+              Paragraph One
+              <textarea name="aboutPara1" rows="4" th:text="${aboutContent['about.section.para1']}" required></textarea>
+            </label>
+            <label class="admin-span-2">
+              Paragraph Two
+              <textarea name="aboutPara2" rows="4" th:text="${aboutContent['about.section.para2']}" required></textarea>
+            </label>
+            <label>
+              Mission
+              <textarea name="aboutMission" rows="4" th:text="${aboutContent['about.mission']}" required></textarea>
+            </label>
+            <label>
+              Vision
+              <textarea name="aboutVision" rows="4" th:text="${aboutContent['about.vision']}" required></textarea>
+            </label>
+            <div class="admin-form-actions admin-span-2">
+              <button class="admin-primary-btn" type="submit">Save About Page</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

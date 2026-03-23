@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login | Axenovo Infotech</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/css/admin.css" />
+  </head>
+  <body class="admin-auth-page">
+    <div class="admin-auth-shell">
+      <section class="admin-auth-visual-panel">
+        <img
+          class="admin-auth-art"
+          th:src="@{/assets/admin/admin-login-visual.svg}"
+          src="/assets/admin/admin-login-visual.svg"
+          alt="Abstract admin portal illustration"
+        />
+
+        <div class="admin-auth-brand">
+          <img
+            class="admin-auth-logo"
+            th:src="@{/assets/brand/axenovo-infotech-logo.svg}"
+            src="/assets/brand/axenovo-infotech-logo.svg"
+            alt="Axenovo Infotech logo"
+          />
+          <span class="admin-auth-pill">Admin Control Center</span>
+        </div>
+
+        <div class="admin-auth-copy">
+          <p class="admin-auth-kicker">Secure Workspace</p>
+          <h2>Manage hero content, portfolio updates, and incoming project inquiries.</h2>
+          <p>
+            This admin panel is designed as a separate dynamic workspace for internal website management.
+          </p>
+
+          <ul class="admin-auth-highlights" aria-label="Admin workspace highlights">
+            <li>
+              <strong>Live Website Sync</strong>
+              <span>Saved updates appear instantly on the public site</span>
+            </li>
+            <li>
+              <strong>Section-wise Control</strong>
+              <span>Home, About, Services, Portfolio, Contact, and Inquiries</span>
+            </li>
+            <li>
+              <strong>Database-backed Content</strong>
+              <span>All admin changes remain stored for future edits</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="admin-auth-metrics" aria-label="Admin workspace metrics">
+          <article class="admin-auth-metric" th:each="metric : ${loginMetrics}">
+            <strong th:text="${metric['value']}">6</strong>
+            <span th:text="${metric['label']}">Editable website sections</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="admin-auth-form-panel">
+        <div class="admin-auth-card">
+          <div class="admin-auth-card-head">
+            <span class="admin-auth-badge">Axenovo Admin Login</span>
+            <span class="admin-auth-trust">Protected Access</span>
+          </div>
+          <h1>Welcome Back, Admin!</h1>
+          <p class="admin-auth-subtitle">Login to manage Axenovo company website content and leads.</p>
+
+          <p class="admin-alert admin-alert-success" th:if="${loginSuccess}" th:text="${loginSuccess}"></p>
+          <p class="admin-alert admin-alert-error" th:if="${loginError}" th:text="${loginError}"></p>
+
+          <form class="admin-login-form" th:action="@{/admin/login}" th:object="${loginForm}" method="post">
+            <label>
+              Email / Username
+              <input type="text" th:field="*{username}" placeholder="Enter admin username" autocomplete="username" required />
+            </label>
+
+            <label>
+              Password
+              <input type="password" th:field="*{password}" placeholder="Enter password" autocomplete="current-password" required />
+            </label>
+
+            <p class="admin-login-help">Use your admin credentials to access the live content management workspace.</p>
+
+            <button class="admin-primary-btn" type="submit">Login</button>
+          </form>
+
+
+          <div class="admin-auth-secure-note">
+            <strong>Professional CMS Access</strong>
+            <span>Use this login to manage live website content with section-wise admin control.</span>
+          </div>
+
+          <p class="admin-auth-footer">&copy; 2026 Axenovo Infotech Pvt. Ltd. Admin Panel</p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

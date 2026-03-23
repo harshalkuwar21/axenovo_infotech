@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Axenovo Infotech</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/css/admin.css" />
+  </head>
+  <body class="admin-page">
+    <div class="admin-dashboard-shell">
+      <div th:replace="~{admin/fragments :: sidebar(${sidebarItems})}"></div>
+
+      <main class="admin-main">
+        <div th:replace="~{admin/fragments :: topbar(${pageTitle}, ${pageBreadcrumb}, ${adminName}, ${adminRole})}"></div>
+
+        <section class="admin-metric-grid">
+          <article class="admin-metric-card" th:each="card : ${statCards}" th:classappend="${card.toneClass}">
+            <div class="admin-metric-head">
+              <span class="admin-metric-symbol" th:text="${card.symbol}">01</span>
+              <h2 th:text="${card.title}">Total Inquiries</h2>
+            </div>
+            <strong class="admin-metric-value" th:text="${card.value}">12</strong>
+            <p th:text="${card.note}">Stored project leads</p>
+          </article>
+        </section>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">CMS Navigation</p>
+              <h2>Open the section you want to manage</h2>
+              <p class="admin-page-intro">Each admin section opens on its own page so content can be managed in a focused, professional workspace.</p>
+            </div>
+          </div>
+
+          <div class="admin-link-grid">
+            <a class="admin-link-card" th:each="card : ${managementCards}" th:href="${card.href}" href="/admin/home-content">
+              <strong th:text="${card.title}">Home Content</strong>
+              <span th:text="${card.description}">Edit hero content and homepage intro copy.</span>
+              <span class="admin-link-meta">
+                <b th:text="${card.value}">7</b>
+                <span th:text="${card.valueLabel}">editable fields</span>
+              </span>
+            </a>
+          </div>
+        </section>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">Latest Leads</p>
+              <h2>Recent Project Inquiries</h2>
+            </div>
+          </div>
+
+          <div class="admin-inquiry-grid" th:if="${!#lists.isEmpty(recentInquiries)}">
+            <article class="admin-inquiry-card" th:each="inquiry : ${recentInquiries}">
+              <div class="admin-inquiry-head">
+                <strong th:text="${inquiry.name}">Client Name</strong>
+                <span th:text="${#temporals.format(inquiry.createdAt, 'dd MMM yyyy')}">22 Mar 2026</span>
+              </div>
+              <a th:href="'mailto:' + ${inquiry.email}" th:text="${inquiry.email}">client@example.com</a>
+              <a th:href="'tel:' + ${inquiry.phone}" th:text="${inquiry.phone}">+91 99999 99999</a>
+              <p th:text="${inquiry.projectBrief}">Project brief preview text.</p>
+            </article>
+          </div>
+
+          <div class="admin-empty-state" th:if="${#lists.isEmpty(recentInquiries)}">
+            <p>No inquiries found yet. Once visitors submit the contact form, they will appear here.</p>
+          </div>
+        </section>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">Footer Content</p>
+              <h2>Update Website Footer</h2>
+              <p class="admin-page-intro">Edit the footer text shown across the public website directly from the admin dashboard.</p>
+            </div>
+          </div>
+
+          <p class="admin-alert admin-alert-success" th:if="${footerSuccess}" th:text="${footerSuccess}"></p>
+
+          <form class="admin-form admin-two-column-form" th:action="@{/admin/dashboard/footer}" method="post">
+            <label>
+              Footer Tagline
+              <input type="text" name="footerTagline" th:value="${footerContent['footer.tagline']}" required />
+            </label>
+            <label>
+              Bottom Copyright Text
+              <input type="text" name="footerBottomText" th:value="${footerContent['footer.bottomText']}" required />
+            </label>
+            <label>
+              Company Column Heading
+              <input type="text" name="footerCompanyHeading" th:value="${footerContent['footer.companyHeading']}" required />
+            </label>
+            <label>
+              Reach Column Heading
+              <input type="text" name="footerReachHeading" th:value="${footerContent['footer.reachHeading']}" required />
+            </label>
+            <label class="admin-span-2">
+              Footer Description
+              <textarea name="footerDescription" rows="4" th:text="${footerContent['footer.description']}" required></textarea>
+            </label>
+            <div class="admin-form-actions admin-span-2">
+              <button class="admin-primary-btn" type="submit">Save Footer Content</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

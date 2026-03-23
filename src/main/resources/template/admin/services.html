@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services | Axenovo Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/css/admin.css" />
+  </head>
+  <body class="admin-page">
+    <div class="admin-dashboard-shell">
+      <div th:replace="~{admin/fragments :: sidebar(${sidebarItems})}"></div>
+
+      <main class="admin-main">
+        <div th:replace="~{admin/fragments :: topbar(${pageTitle}, ${pageBreadcrumb}, ${adminName}, ${adminRole})}"></div>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">Services</p>
+              <h2>Manage Website Services</h2>
+              <p class="admin-page-intro">Create, update, reorder, and remove the service cards displayed on the public website.</p>
+            </div>
+          </div>
+
+          <p class="admin-alert admin-alert-success" th:if="${serviceSuccess}" th:text="${serviceSuccess}"></p>
+          <p class="admin-alert admin-alert-error" th:if="${serviceError}" th:text="${serviceError}"></p>
+
+          <form class="admin-form admin-two-column-form admin-add-card" th:action="@{/admin/dashboard/services/add}" method="post">
+            <label>
+              Service Title
+              <input type="text" name="title" placeholder="Custom Software Development" required />
+            </label>
+            <label>
+              Card Label
+              <input type="text" name="linkLabel" placeholder="Scalable by design" required />
+            </label>
+            <label class="admin-span-2">
+              Description
+              <textarea name="description" rows="4" placeholder="Write the service description" required></textarea>
+            </label>
+            <label>
+              Icon Style
+              <select name="iconName">
+                <option th:each="icon : ${serviceIcons}" th:value="${icon}" th:text="${icon}">software</option>
+              </select>
+            </label>
+            <div class="admin-form-actions">
+              <button class="admin-primary-btn" type="submit">Add Service</button>
+            </div>
+          </form>
+
+          <div class="admin-stack-list">
+            <article class="admin-inline-editor" th:each="service : ${serviceItems}">
+              <form class="admin-form admin-two-column-form" th:action="@{'/admin/dashboard/services/' + ${service.id}}" method="post">
+                <label>
+                  Title
+                  <input type="text" name="title" th:value="${service.title}" required />
+                </label>
+                <label>
+                  Card Label
+                  <input type="text" name="linkLabel" th:value="${service.linkLabel}" required />
+                </label>
+                <label class="admin-span-2">
+                  Description
+                  <textarea name="description" rows="3" th:text="${service.description}" required></textarea>
+                </label>
+                <label>
+                  Icon Style
+                  <select name="iconName">
+                    <option th:each="icon : ${serviceIcons}" th:value="${icon}" th:text="${icon}" th:selected="${icon == service.iconName}">software</option>
+                  </select>
+                </label>
+                <label>
+                  Sort Order
+                  <input type="number" name="sortOrder" min="1" th:value="${service.sortOrder}" required />
+                </label>
+                <div class="admin-inline-actions admin-span-2">
+                  <button class="admin-primary-btn" type="submit">Save Service</button>
+                </div>
+              </form>
+              <form class="admin-delete-form" th:action="@{'/admin/dashboard/services/' + ${service.id} + '/delete'}" method="post">
+                <button class="admin-danger-btn" type="submit">Delete</button>
+              </form>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

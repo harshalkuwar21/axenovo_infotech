@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inquiries | Axenovo Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/css/admin.css" />
+  </head>
+  <body class="admin-page">
+    <div class="admin-dashboard-shell">
+      <div th:replace="~{admin/fragments :: sidebar(${sidebarItems})}"></div>
+
+      <main class="admin-main">
+        <div th:replace="~{admin/fragments :: topbar(${pageTitle}, ${pageBreadcrumb}, ${adminName}, ${adminRole})}"></div>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">Inquiry Inbox</p>
+              <h2>Recent Project Inquiries</h2>
+              <p class="admin-page-intro">Review the latest leads submitted through the website contact form in this dedicated inbox.</p>
+            </div>
+          </div>
+
+          <div class="admin-mini-stats">
+            <article class="admin-mini-stat">
+              <span>Total Inquiries</span>
+              <strong th:text="${totalInquiryCount}">0</strong>
+            </article>
+            <article class="admin-mini-stat">
+              <span>This Week</span>
+              <strong th:text="${weeklyInquiryCount}">0</strong>
+            </article>
+          </div>
+
+          <div class="admin-inquiry-grid" th:if="${!#lists.isEmpty(recentInquiries)}">
+            <article class="admin-inquiry-card" th:each="inquiry : ${recentInquiries}">
+              <div class="admin-inquiry-head">
+                <strong th:text="${inquiry.name}">Client Name</strong>
+                <span th:text="${#temporals.format(inquiry.createdAt, 'dd MMM yyyy')}">22 Mar 2026</span>
+              </div>
+              <a th:href="'mailto:' + ${inquiry.email}" th:text="${inquiry.email}">client@example.com</a>
+              <a th:href="'tel:' + ${inquiry.phone}" th:text="${inquiry.phone}">+91 99999 99999</a>
+              <p th:text="${inquiry.projectBrief}">Project brief preview text.</p>
+            </article>
+          </div>
+
+          <div class="admin-empty-state" th:if="${#lists.isEmpty(recentInquiries)}">
+            <p>No inquiries found yet. Once visitors submit the contact form, they will appear here.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

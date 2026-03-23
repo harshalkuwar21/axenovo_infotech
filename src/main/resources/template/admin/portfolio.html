@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio | Axenovo Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/css/admin.css" />
+  </head>
+  <body class="admin-page">
+    <div class="admin-dashboard-shell">
+      <div th:replace="~{admin/fragments :: sidebar(${sidebarItems})}"></div>
+
+      <main class="admin-main">
+        <div th:replace="~{admin/fragments :: topbar(${pageTitle}, ${pageBreadcrumb}, ${adminName}, ${adminRole})}"></div>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">Portfolio</p>
+              <h2>Manage Website Portfolio</h2>
+              <p class="admin-page-intro">Portfolio entries are stored in the database and published to the website as soon as you save them.</p>
+            </div>
+          </div>
+
+          <p class="admin-alert admin-alert-success" th:if="${portfolioSuccess}" th:text="${portfolioSuccess}"></p>
+          <p class="admin-alert admin-alert-error" th:if="${portfolioError}" th:text="${portfolioError}"></p>
+
+          <form class="admin-form admin-two-column-form admin-add-card" th:action="@{/admin/dashboard/portfolio/add}" method="post" enctype="multipart/form-data">
+            <label>
+              Project Title
+              <input type="text" name="title" placeholder="Axenovo Corporate Website" required />
+            </label>
+            <label>
+              Date Label
+              <input type="text" name="dateLabel" placeholder="Mar 2026" required />
+            </label>
+            <label class="admin-span-2">
+              Summary
+              <textarea name="summary" rows="4" placeholder="Short project summary" required></textarea>
+            </label>
+            <label>
+              Status
+              <input type="text" name="status" placeholder="Published" required />
+            </label>
+            <label>
+              Choose Image File
+              <input type="file" name="imageFile" accept="image/*" />
+              <span class="admin-field-help">Upload a project image that should appear on the public portfolio page.</span>
+            </label>
+            <div class="admin-form-actions admin-span-2">
+              <button class="admin-primary-btn" type="submit">Add Portfolio Item</button>
+            </div>
+          </form>
+
+          <div class="admin-stack-list">
+            <article class="admin-inline-editor" th:each="project : ${portfolioItems}">
+              <form class="admin-form admin-two-column-form" th:action="@{'/admin/dashboard/portfolio/' + ${project.id}}" method="post" enctype="multipart/form-data">
+                <label>
+                  Title
+                  <input type="text" name="title" th:value="${project.title}" required />
+                </label>
+                <label>
+                  Date Label
+                  <input type="text" name="dateLabel" th:value="${project.dateLabel}" required />
+                </label>
+                <label class="admin-span-2">
+                  Summary
+                  <textarea name="summary" rows="3" th:text="${project.summary}" required></textarea>
+                </label>
+                <label>
+                  Status
+                  <input type="text" name="status" th:value="${project.status}" required />
+                </label>
+                <label>
+                  Replace Image File
+                  <input type="file" name="imageFile" accept="image/*" />
+                  <input type="hidden" name="existingImagePath" th:value="${project.imagePath}" />
+                  <span class="admin-field-help">Leave this empty if you want to keep the current image.</span>
+                </label>
+                <label>
+                  Sort Order
+                  <input type="number" name="sortOrder" min="1" th:value="${project.sortOrder}" required />
+                </label>
+                <div class="admin-upload-preview admin-span-2">
+                  <img th:src="${project.imagePath}" src="/assets/graphics/hero-tech.svg" alt="Portfolio preview image" />
+                  <span th:text="${project.imagePath}">/assets/graphics/hero-tech.svg</span>
+                </div>
+                <div class="admin-inline-actions admin-span-2">
+                  <button class="admin-primary-btn" type="submit">Save Portfolio</button>
+                </div>
+              </form>
+              <form class="admin-delete-form" th:action="@{'/admin/dashboard/portfolio/' + ${project.id} + '/delete'}" method="post">
+                <button class="admin-danger-btn" type="submit">Delete</button>
+              </form>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

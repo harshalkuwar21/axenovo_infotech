@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Content | Axenovo Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/css/admin.css" />
+  </head>
+  <body class="admin-page">
+    <div class="admin-dashboard-shell">
+      <div th:replace="~{admin/fragments :: sidebar(${sidebarItems})}"></div>
+
+      <main class="admin-main">
+        <div th:replace="~{admin/fragments :: topbar(${pageTitle}, ${pageBreadcrumb}, ${adminName}, ${adminRole})}"></div>
+
+        <section class="admin-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">Contact Page</p>
+              <h2>Update Contact Details</h2>
+              <p class="admin-page-intro">Edit the contact page copy, business email, phone numbers, and location details here.</p>
+            </div>
+          </div>
+
+          <p class="admin-alert admin-alert-success" th:if="${contactSuccess}" th:text="${contactSuccess}"></p>
+
+          <form class="admin-form admin-two-column-form" th:action="@{/admin/dashboard/contact}" method="post">
+            <label>
+              Hero Kicker
+              <input type="text" name="contactHeroKicker" th:value="${contactContent['contact.hero.kicker']}" required />
+            </label>
+            <label>
+              Hero Title
+              <input type="text" name="contactHeroTitle" th:value="${contactContent['contact.hero.title']}" required />
+            </label>
+            <label class="admin-span-2">
+              Hero Lead
+              <textarea name="contactHeroLead" rows="3" th:text="${contactContent['contact.hero.lead']}" required></textarea>
+            </label>
+            <label>
+              Section Kicker
+              <input type="text" name="contactSectionKicker" th:value="${contactContent['contact.section.kicker']}" required />
+            </label>
+            <label>
+              Section Title
+              <input type="text" name="contactSectionTitle" th:value="${contactContent['contact.section.title']}" required />
+            </label>
+            <label class="admin-span-2">
+              Section Lead
+              <textarea name="contactSectionLead" rows="4" th:text="${contactContent['contact.section.lead']}" required></textarea>
+            </label>
+            <label>
+              Email
+              <input type="email" name="contactEmail" th:value="${contactContent['contact.email']}" required />
+            </label>
+            <label>
+              Phone 1
+              <input type="text" name="contactPhone1" th:value="${contactContent['contact.phone1']}" required />
+            </label>
+            <label>
+              Phone 2
+              <input type="text" name="contactPhone2" th:value="${contactContent['contact.phone2']}" required />
+            </label>
+            <label>
+              Location
+              <input type="text" name="contactLocation" th:value="${contactContent['contact.location']}" required />
+            </label>
+            <div class="admin-form-actions admin-span-2">
+              <button class="admin-primary-btn" type="submit">Save Contact Details</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

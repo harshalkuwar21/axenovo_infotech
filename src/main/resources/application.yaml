@@ -2,11 +2,11 @@ spring:
   application:
     name: infotech
   datasource:
-    url: jdbc:postgresql://localhost:5433/axenovo_db?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://localhost:5432/axenovo_db
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
-    
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,6 +16,16 @@ spring:
         format_sql: true
   thymeleaf:
     prefix: classpath:/template/
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+axenovo:
+  admin:
+    username: admin@axenovo.com
+    password: admin123
+    name: Admin User
 
 server:
   port: 9095

@@ -8,7 +8,7 @@
       content="Learn more about Axenovo Infotech, our mission, vision, values, and the way we approach technology delivery and digital growth."
     />
     <title>About | Axenovo Infotech</title>
-    <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="assets/brand/axenovo-infotech-logo.svg" />
     <link rel="stylesheet" href="/css/main.css" />
     
   </head>
@@ -19,11 +19,13 @@
     <header class="site-header">
       <div class="container header-shell">
         <a class="brand" href="/home" aria-label="Axenovo Infotech home">
-          <img
-            class="brand-mark"
-            src="assets/brand/axenovo-logo.svg"
-            alt="Axenovo Infotech logo"
-          />
+          <span class="brand-mark-frame" aria-hidden="true">
+            <img
+              class="brand-mark"
+              src="assets/brand/axenovo-infotech-logo.svg"
+              alt=""
+            />
+          </span>
           <span class="brand-copy">
             <span class="brand-name">Axenovo Infotech</span>
             <span class="brand-tag">Pvt. Ltd. | Technology, Design, Growth</span>
@@ -57,9 +59,9 @@
       <section class="hero-section">
         <div class="container hero-shell" data-reveal>
           <div class="hero-copy">
-            <p class="section-kicker">About Axenovo</p>
-            <h1>Technology delivery built around clarity, reliability, and long-term growth.</h1>
-            <p class="hero-lead">
+            <p class="section-kicker" th:text="${aboutContent['about.hero.kicker']}">About Axenovo</p>
+            <h1 th:text="${aboutContent['about.hero.title']}">Technology delivery built around clarity, reliability, and long-term growth.</h1>
+            <p class="hero-lead" th:text="${aboutContent['about.hero.lead']}">
               Axenovo Infotech Pvt. Ltd. is a technology-driven IT company focused on building secure,
               scalable digital solutions while keeping communication, design, and business outcomes aligned.
             </p>
@@ -107,14 +109,14 @@
       <section class="section about-section">
         <div class="container about-grid">
           <div class="about-copy" data-reveal>
-            <p class="section-kicker">Who We Are</p>
-            <h2>Technology should not just support your business. It should accelerate it.</h2>
-            <p>
+            <p class="section-kicker" th:text="${aboutContent['about.section.kicker']}">Who We Are</p>
+            <h2 th:text="${aboutContent['about.section.title']}">Technology should not just support your business. It should accelerate it.</h2>
+            <p th:text="${aboutContent['about.section.para1']}">
               Axenovo Infotech Pvt. Ltd. is committed to delivering secure, scalable, and future-ready
               digital solutions. Our work combines strong technical execution with design clarity and
               strategic thinking.
             </p>
-            <p>
+            <p th:text="${aboutContent['about.section.para2']}">
               From backend-heavy software systems and modern web applications to digital branding and media,
               we help businesses innovate, scale, and lead in the digital era.
             </p>
@@ -122,14 +124,14 @@
             <div class="mission-vision">
               <article>
                 <h3>Our Mission</h3>
-                <p>
+                <p th:text="${aboutContent['about.mission']}">
                   To empower businesses with reliable, scalable, and future-ready technology solutions that
                   help them compete globally.
                 </p>
               </article>
               <article>
                 <h3>Our Vision</h3>
-                <p>
+                <p th:text="${aboutContent['about.vision']}">
                   To become a globally recognized IT solutions provider known for innovation, quality, and
                   long-term client partnerships.
                 </p>
@@ -243,23 +245,25 @@
       <div class="container footer-grid">
         <div class="footer-brand">
           <a class="brand footer-brand-link" href="/home" aria-label="Axenovo Infotech home">
-            <img
-              class="brand-mark"
-              src="assets/brand/axenovo-logo.svg"
-              alt="Axenovo Infotech logo"
-            />
+            <span class="brand-mark-frame" aria-hidden="true">
+              <img
+                class="brand-mark"
+                src="assets/brand/axenovo-infotech-logo.svg"
+                alt=""
+              />
+            </span>
             <span class="brand-copy">
               <span class="brand-name">Axenovo Infotech</span>
-              <span class="brand-tag">Scalable technology and digital growth solutions</span>
+              <span class="brand-tag" th:text="${footerContent['footer.tagline']}">Scalable technology and digital growth solutions</span>
             </span>
           </a>
-          <p>
+          <p th:text="${footerContent['footer.description']}">
             We design, build, and launch digital systems that help businesses move with more confidence and speed.
           </p>
         </div>
 
         <div>
-          <h3>Company</h3>
+          <h3 th:text="${footerContent['footer.companyHeading']}">Company</h3>
           <a href="home.html">Home</a>
           <a href="about.html">About Us</a>
           <a href="services.html">Services</a>
@@ -267,16 +271,16 @@
         </div>
 
         <div>
-          <h3>Reach Us</h3>
-          <a href="mailto:axenovoinfotech@gmail.com">axenovoinfotech@gmail.com</a>
-          <a href="tel:+917058792757">+91 70587 92757</a>
-          <a href="tel:+919970248871">+91 99702 48871</a>
-          <p>Nashik, Maharashtra, India</p>
+          <h3 th:text="${footerContent['footer.reachHeading']}">Reach Us</h3>
+          <a th:href="'mailto:' + ${contactContent['contact.email']}" href="mailto:axenovoinfotech@gmail.com" th:text="${contactContent['contact.email']}">axenovoinfotech@gmail.com</a>
+          <a th:href="'tel:' + ${contactContent['contact.phone1']}" href="tel:+917058792757" th:text="${contactContent['contact.phone1']}">+91 70587 92757</a>
+          <a th:href="'tel:' + ${contactContent['contact.phone2']}" href="tel:+919970248871" th:text="${contactContent['contact.phone2']}">+91 99702 48871</a>
+          <p th:text="${contactContent['contact.location']}">Nashik, Maharashtra, India</p>
         </div>
       </div>
 
       <div class="container footer-bottom">
-        <p>&copy; <span data-current-year></span> Axenovo Infotech Pvt. Ltd. All rights reserved.</p>
+        <p>&copy; <span data-current-year></span> <span th:text="${footerContent['footer.bottomText']}">Axenovo Infotech Pvt. Ltd. All rights reserved.</span></p>
       </div>
     </footer>
 

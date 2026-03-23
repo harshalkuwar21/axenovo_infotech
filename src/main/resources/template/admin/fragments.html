@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <aside th:fragment="sidebar(sidebarItems)" class="admin-sidebar">
+      <a class="admin-sidebar-brand" th:href="@{/admin/dashboard}" href="/admin/dashboard">
+        <img
+          class="admin-sidebar-logo"
+          th:src="@{/assets/brand/axenovo-infotech-logo.svg}"
+          src="/assets/brand/axenovo-infotech-logo.svg"
+          alt="Axenovo Infotech logo"
+        />
+      </a>
+
+      <nav class="admin-sidebar-nav">
+        <a
+          th:each="item : ${sidebarItems}"
+          th:href="${item.href}"
+          th:classappend="${item.active} ? ' is-active'"
+          class="admin-sidebar-link"
+        >
+          <span class="admin-sidebar-symbol" th:text="${item.symbol}">D</span>
+          <span class="admin-sidebar-link-copy">
+            <span th:text="${item.label}">Dashboard</span>
+            <span class="admin-sidebar-badge" th:if="${item.badge}" th:text="${item.badge}">12</span>
+          </span>
+        </a>
+      </nav>
+
+      <div class="admin-support-card">
+        <strong>Live Website Control</strong>
+        <span>Any content you save here is stored in the database and shown on the public website immediately.</span>
+      </div>
+    </aside>
+
+    <header th:fragment="topbar(pageTitle, pageBreadcrumb, adminName, adminRole)" class="admin-topbar">
+      <div>
+        <p class="admin-breadcrumb" th:text="${pageBreadcrumb}"> Admin Dashboard</p>
+        <h1 th:text="${pageTitle}">Admin Dashboard</h1>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <div class="admin-topbar-status">
+          <strong>Live Sync</strong>
+          <span>Website updates instantly after save</span>
+        </div>
+
+        <div class="admin-user-card">
+        <img
+          class="admin-user-avatar"
+          th:src="@{/assets/admin/admin-avatar.svg}"
+          src="/assets/admin/admin-avatar.svg"
+          alt="Admin avatar"
+        />
+        <div>
+          <strong th:text="${adminName}">Admin User</strong>
+          <span th:text="${adminRole}">Website Administrator</span>
+        </div>
+        <a class="admin-logout-btn" th:href="@{/admin/logout}" href="/admin/logout">Logout</a>
+        </div>
+      </div>
+    </header>
+  </body>
+</html>
