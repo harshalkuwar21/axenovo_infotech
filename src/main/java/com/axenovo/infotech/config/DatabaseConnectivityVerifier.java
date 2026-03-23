@@ -25,12 +25,13 @@ public class DatabaseConnectivityVerifier {
     @PostConstruct
     public void verify() {
         try (Connection connection = dataSource.getConnection()) {
+            String databaseProduct = connection.getMetaData().getDatabaseProductName();
             String url = connection.getMetaData().getURL();
             String user = connection.getMetaData().getUserName();
-            log.info("PostgreSQL connectivity verified: url=[{}], user=[{}]", url, user);
+            log.info("{} connectivity verified: url=[{}], user=[{}]", databaseProduct, url, user);
         } catch (SQLException ex) {
-            log.error("Unable to connect to PostgreSQL with configured datasource", ex);
-            throw new IllegalStateException("PostgreSQL connection verification failed", ex);
+            log.error("Unable to connect with the configured datasource", ex);
+            throw new IllegalStateException("Database connection verification failed", ex);
         }
     }
 }

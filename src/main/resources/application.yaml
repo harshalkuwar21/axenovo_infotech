@@ -1,11 +1,12 @@
 spring:
   application:
     name: infotech
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/axenovo_db
-    username: postgres
+    url: jdbc:mysql://localhost:3306/axenovo_db?createDatabaseIfNotExist=true
+    username: root
     password: admin
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
@@ -14,6 +15,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+
   thymeleaf:
     prefix: classpath:/template/
   servlet:
@@ -28,4 +31,4 @@ axenovo:
     name: Admin User
 
 server:
-  port: 9095
+  port: 9095 
