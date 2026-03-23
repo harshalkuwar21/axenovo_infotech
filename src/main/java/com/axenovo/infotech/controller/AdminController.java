@@ -125,6 +125,8 @@ public class AdminController {
         model.addAttribute("managementCards", buildManagementCards());
         model.addAttribute("recentInquiries", contactInquiryService.findRecent());
         model.addAttribute("footerContent", siteSettingService.getMany(defaultFooterSettings()));
+        model.addAttribute("maintenanceEnabled", siteSettingService.isMaintenanceModeEnabled());
+        model.addAttribute("maintenanceMessage", siteSettingService.getMaintenanceMessage());
         return "admin/dashboard";
     }
 
@@ -320,6 +322,26 @@ public class AdminController {
         ));
 
         redirectAttributes.addFlashAttribute("footerSuccess", "Footer content updated successfully.");
+        return "redirect:/admin/dashboard";
+    }
+
+    @PostMapping("/dashboard/maintenance")
+    public String updateMaintenanceMode(
+        @RequestParam(name = "enabled", defaultValue = "false") boolean enabled,
+        RedirectAttributes redirectAttributes,
+        HttpSession session
+    ) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/admin/login";
+        }
+
+        siteSettingService.saveMaintenanceMode(enabled);
+        redirectAttributes.addFlashAttribute(
+            "maintenanceSuccess",
+            enabled
+                ? "Maintenance mode enabled. Public visitors will now see the maintenance page."
+                : "Maintenance mode disabled. The public website is live again."
+        );
         return "redirect:/admin/dashboard";
     }
 

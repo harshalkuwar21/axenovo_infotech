@@ -30,6 +30,11 @@ public class Home {
 
     @GetMapping({"/", "/home"})
     public String home(Model model) {
+        String maintenanceView = maintenanceViewIfEnabled(model);
+        if (maintenanceView != null) {
+            return maintenanceView;
+        }
+
         ensureContactForm(model);
         addSharedContent(model);
         model.addAttribute("homeContent", siteSettingService.getMany(defaultHomeSettings()));
@@ -40,6 +45,11 @@ public class Home {
 
     @GetMapping("/portfolio")
     public String portfolio(Model model) {
+        String maintenanceView = maintenanceViewIfEnabled(model);
+        if (maintenanceView != null) {
+            return maintenanceView;
+        }
+
         addSharedContent(model);
         model.addAttribute("portfolioItems", portfolioItemService.findAll());
         return "portfolio";
@@ -47,6 +57,11 @@ public class Home {
 
     @GetMapping("/about")
     public String about(Model model) {
+        String maintenanceView = maintenanceViewIfEnabled(model);
+        if (maintenanceView != null) {
+            return maintenanceView;
+        }
+
         addSharedContent(model);
         model.addAttribute("aboutContent", siteSettingService.getMany(defaultAboutSettings()));
         return "about";
@@ -54,9 +69,24 @@ public class Home {
 
     @GetMapping("/services")
     public String services(Model model) {
+        String maintenanceView = maintenanceViewIfEnabled(model);
+        if (maintenanceView != null) {
+            return maintenanceView;
+        }
+
         addSharedContent(model);
         model.addAttribute("serviceItems", serviceItemService.findAll());
         return "services";
+    }
+
+    @GetMapping("/maintenance")
+    public String maintenance(Model model) {
+        if (!siteSettingService.isMaintenanceModeEnabled()) {
+            return "redirect:/home";
+        }
+
+        model.addAttribute("maintenanceMessage", siteSettingService.getMaintenanceMessage());
+        return "maintenance";
     }
 
     private void ensureContactForm(Model model) {
@@ -68,6 +98,15 @@ public class Home {
     private void addSharedContent(Model model) {
         model.addAttribute("contactContent", siteSettingService.getMany(defaultContactSettings()));
         model.addAttribute("footerContent", siteSettingService.getMany(defaultFooterSettings()));
+    }
+
+    private String maintenanceViewIfEnabled(Model model) {
+        if (!siteSettingService.isMaintenanceModeEnabled()) {
+            return null;
+        }
+
+        model.addAttribute("maintenanceMessage", siteSettingService.getMaintenanceMessage());
+        return "maintenance";
     }
 
     private Map<String, String> defaultHomeSettings() {

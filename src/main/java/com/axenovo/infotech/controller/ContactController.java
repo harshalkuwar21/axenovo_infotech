@@ -33,6 +33,11 @@ public class ContactController {
 
     @GetMapping("/contact")
     public String contact(Model model) {
+        String maintenanceView = maintenanceViewIfEnabled(model);
+        if (maintenanceView != null) {
+            return maintenanceView;
+        }
+
         ensureForm(model);
         addContactContent(model);
         return "contact";
@@ -44,6 +49,11 @@ public class ContactController {
         Model model,
         RedirectAttributes redirectAttributes
     ) {
+        if (siteSettingService.isMaintenanceModeEnabled()) {
+            redirectAttributes.addFlashAttribute("maintenanceNotice", siteSettingService.getMaintenanceMessage());
+            return "redirect:/maintenance";
+        }
+
         normalize(contactForm);
         String validationMessage = validate(contactForm);
 
@@ -68,6 +78,15 @@ public class ContactController {
     private void addContactContent(Model model) {
         model.addAttribute("contactContent", siteSettingService.getMany(defaultContactSettings()));
         model.addAttribute("footerContent", siteSettingService.getMany(defaultFooterSettings()));
+    }
+
+    private String maintenanceViewIfEnabled(Model model) {
+        if (!siteSettingService.isMaintenanceModeEnabled()) {
+            return null;
+        }
+
+        model.addAttribute("maintenanceMessage", siteSettingService.getMaintenanceMessage());
+        return "maintenance";
     }
 
     private void normalize(ContactInquiryForm form) {

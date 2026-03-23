@@ -24,6 +24,51 @@
           </article>
         </section>
 
+        <section class="admin-panel admin-maintenance-panel">
+          <div class="admin-panel-head">
+            <div>
+              <p class="admin-panel-kicker">Website Availability</p>
+              <h2>Maintenance Mode</h2>
+              <p class="admin-page-intro">
+                Turn this on when you want to pause the public website. Admin pages stay available so content can still be managed.
+              </p>
+            </div>
+            <span
+              class="admin-status-pill"
+              th:classappend="${maintenanceEnabled} ? ' is-enabled' : ' is-live'"
+              th:text="${maintenanceEnabled} ? 'Maintenance On' : 'Website Live'"
+            >
+              Website Live
+            </span>
+          </div>
+
+          <p class="admin-alert admin-alert-success" th:if="${maintenanceSuccess}" th:text="${maintenanceSuccess}"></p>
+
+          <form class="admin-form admin-maintenance-form" th:action="@{/admin/dashboard/maintenance}" method="post">
+            <label class="admin-maintenance-toggle" for="maintenance-toggle">
+              <span class="admin-maintenance-copy">
+                <strong>Show maintenance page to public visitors</strong>
+                <span>Visitors will see a maintenance notice instead of the website while admin pages remain accessible.</span>
+              </span>
+              <span class="admin-switch">
+                <input id="maintenance-toggle" type="checkbox" name="enabled" th:checked="${maintenanceEnabled}" />
+                <span class="admin-switch-slider" aria-hidden="true"></span>
+              </span>
+            </label>
+
+            <div class="admin-maintenance-preview">
+              <p class="admin-maintenance-preview-label">Visitor message</p>
+              <p th:text="${maintenanceMessage}">
+                Our website is currently under maintenance. Please check again after some time.
+              </p>
+            </div>
+
+            <div class="admin-form-actions">
+              <button class="admin-primary-btn" type="submit">Save Maintenance Setting</button>
+            </div>
+          </form>
+        </section>
+
         <section class="admin-panel">
           <div class="admin-panel-head">
             <div>

@@ -2,14 +2,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <body>
     <aside th:fragment="sidebar(sidebarItems)" class="admin-sidebar">
-      <a class="admin-sidebar-brand" th:href="@{/admin/dashboard}" href="/admin/dashboard">
-        <img
-          class="admin-sidebar-logo"
-          th:src="@{/assets/brand/axenovo-infotech-logo.svg}"
-          src="/assets/brand/axenovo-infotech-logo.svg"
-          alt="Axenovo Infotech logo"
-        />
-      </a>
+      <input class="admin-sidebar-toggle" type="checkbox" id="admin-sidebar-toggle" />
+
+      <div class="admin-sidebar-head">
+        <a class="admin-sidebar-brand" th:href="@{/admin/dashboard}" href="/admin/dashboard">
+          <img
+            class="admin-sidebar-logo"
+            th:src="@{/assets/brand/axenovo-infotech-logo.png}"
+            src="/assets/brand/axenovo-infotech-logo.png"
+            alt="Axenovo Infotech logo"
+          />
+        </a>
+
+        <label class="admin-sidebar-toggle-label" for="admin-sidebar-toggle">
+          <span class="admin-sidebar-toggle-copy">
+            <strong>Admin Menu</strong>
+            <span>Open navigation</span>
+          </span>
+          <span class="admin-sidebar-toggle-icon" aria-hidden="true"></span>
+        </label>
+      </div>
 
       <nav class="admin-sidebar-nav">
         <a
@@ -33,7 +45,7 @@
     </aside>
 
     <header th:fragment="topbar(pageTitle, pageBreadcrumb, adminName, adminRole)" class="admin-topbar">
-      <div>
+      <div class="admin-topbar-copy">
         <p class="admin-breadcrumb" th:text="${pageBreadcrumb}"> Admin Dashboard</p>
         <h1 th:text="${pageTitle}">Admin Dashboard</h1>
       </div>
